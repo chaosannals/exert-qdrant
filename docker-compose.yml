@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  qdrant-server:
+    image: qdrant/qdrant # 连版本号都没有，应该不够稳定
+    container_name: exert-qdrant-server
+    restart: always
+    ports:
+      - 6333:6333 # HTTP
+      - 6334:6334 # gRPC
+    volumes:
+      - ./.docker/storage:/qdrant/storage # 存储
+      - ./.docker/config/production.yaml:/qdrant/config/production.yaml # 配置
+    networks: 
+      - exert-qdrant-net
+
+networks:
+  exert-qdrant-net:
+    name: exert-qdrant-net
+    driver: bridge
